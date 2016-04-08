@@ -54,7 +54,7 @@ def stop_test(test):
         ssh.cocon_configure(test_desc,test_var,"PostCoconConf")
     
 
-jsonData = open("/home/vragov/scripts/ecss.3.6.0/cgg/cgg.json").read()
+jsonData = open("/home/vragov/scripts/ecss.3.6.0/transfer/transfer.json").read()
 customSettings = '''
 {
 "SystemVars" : [
@@ -185,12 +185,19 @@ for test in tests:
         else:
             ua.LogFd = log_fd
 
+#Если есть настройки для CoCon выполняем их
 if "PreCoconConf" in test_desc:
     print("[DEBUG] Configuration of the ECSS-10 system...")
     #Переменные для настройки соединения с CoCoN
     ssh.cocon_configure(test_desc,test_var,"PreCoconConf")
     #Даём кокону очнуться
     time.sleep(1)
+
+if "SSMgmCommands" in test_desc:
+    print("[DEBUG] Ativation of the ss...")
+    ss_conf = test_desc["SSMgmCommands"][0]
+    print(ss_conf["Activation"])
+
 
 #Запускаем процесс тестирования
 for test in tests:

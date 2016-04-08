@@ -110,7 +110,8 @@ def parse_test_var (test_desc):
     test_var = {}
     try:
        #Забираем переменные описанные юзером
-       test_var = test_desc["UserVar"][0]
+       if "UserVar" in test_desc:
+           test_var = test_desc["UserVar"][0]
        # Создаём связку Id <--> Number, чтобы было удобно ссылаться на юзеров
        # В переменных
        # %%1 -> юзер с Id = 1 и т.д
